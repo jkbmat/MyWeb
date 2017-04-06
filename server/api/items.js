@@ -11,11 +11,11 @@ module.exports = (app, connection, authenticate) => {
   app.post('/api/items/', [authenticate, function (req, res) {
     const id = req.body.id;
     const category = req.body.category;
-    const name = req.body.name;
-    const year = req.body.year;
-    const description = req.body.description;
-    const picture = req.body.picture;
-    const link = req.body.link;
+    const name = req.body.name || "";
+    const year = req.body.year || (new Date()).getFullYear();
+    const description = req.body.description || "";
+    const picture = req.body.picture || "";
+    const link = req.body.link || "";
 
     Items.createItem(connection, id, category, name, year, description, picture, link).then(
       (value) => res.json(value),
@@ -43,14 +43,14 @@ module.exports = (app, connection, authenticate) => {
 
   // UPDATE
 
-  app.put('/api/items/:id', [authenticate, function (req, res) {console.log(req.params.id, req.body)
+  app.put('/api/items/:id', [authenticate, function (req, res) {
     const id = req.params.id;
     const category = req.body.category;
-    const name = req.body.name;
-    const year = req.body.year;
-    const description = req.body.description;
-    const picture = req.body.picture;
-    const link = req.body.link;
+    const name = req.body.name || "";
+    const year = req.body.year || (new Date()).getFullYear();
+    const description = req.body.description || "";
+    const picture = req.body.picture || "";
+    const link = req.body.link || "";
 
     Items.setItem(connection, id, category, name, year, description, picture, link).then(
       (value) => res.json(value),

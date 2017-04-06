@@ -10,8 +10,8 @@ module.exports = (app, connection, authenticate) => {
 
   app.post('/api/categories/', [authenticate, function (req, res) {
     const id = req.body.id;
-    const color = req.body.color;
-    const name = req.body.name;
+    const color = req.body.color || "#000000";
+    const name = req.body.name || "";
 
     Categories.createCategory(connection, id, color, name).then(
       (value) => res.json(value),
@@ -41,8 +41,8 @@ module.exports = (app, connection, authenticate) => {
 
   app.put('/api/categories/:id', [authenticate, function (req, res) {
     const id = req.params.id;
-    const color = req.body.color;
-    const name = req.body.name;
+    const color = req.body.color || "#000000";
+    const name = req.body.name || "";
 
     Categories.setCategory(connection, id, color, name).then(
       (value) => res.json(value),
