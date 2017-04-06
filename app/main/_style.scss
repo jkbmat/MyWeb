@@ -1,0 +1,56 @@
+@import "~_style/base";
+
+.page {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+
+  .robot {
+    height: 90%;
+    flex-basis: 25%;
+    margin: 0 4em 0 2em;
+    align-self: center;
+    box-sizing: border-box;
+    width: 25%;
+
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    @media (min-width: $screen-normal) {
+      background-image: url('~_img/robot-normal.png');
+    }
+
+    @media (min-width: $screen-big) {
+      background-image: url('~_img/robot-big.png');
+    }
+
+    @media (min-width: $screen-huge) {
+      background-image: url('~_img/robot-huge.png');
+    }
+    
+    @media (max-width: $screen-normal), (max-height: $screen-tiny) {
+      display: none;
+    }
+  }
+
+  .main {
+    margin-top: 3vh;
+    padding: 4 * $unit;
+    position: relative;
+    flex-shrink: 1;
+    width: 75%;
+    box-sizing: border-box;
+    padding-bottom: 3em;
+    overflow: hidden;
+
+    flex-basis: 75%;
+
+    @media (max-width: $screen-normal), (max-height: $screen-tiny) {
+      margin-top: 0;
+      flex-basis: 100%;
+    }
+  }
+}
+

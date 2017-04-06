@@ -1,0 +1,32 @@
+@import "~_style/base";
+
+.message {
+  position: fixed;
+  width: 100%;
+  top: 0em;
+  left: 0;
+  background: $color-green;
+  padding: $unit * 2;
+  border-radius: 0 0 $unit $unit;
+  text-align: center;
+  box-sizing: border-box;
+  opacity: 1;
+  transition: top $speed-slow, opacity $speed-fast;
+  z-index: 999;
+  cursor: pointer;
+  height: auto;
+  display: block;
+
+  &.hidden {
+    top: -5em;
+    opacity: 0;
+  }
+
+  &.error {
+    background: $color-red;
+  }
+
+  &:not(.hidden):hover {
+    opacity: 0.3;
+  }
+}

@@ -1,0 +1,8 @@
+@import "~_style/base";
+
+.itemList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  position: relative;
+}

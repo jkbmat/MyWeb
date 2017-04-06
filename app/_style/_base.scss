@@ -1,0 +1,58 @@
+$small-unit: 3px;
+$unit: 5px;
+
+$color-grey: #eeeeee;
+$color-bg: #24474c;
+$color-highlight: #bcf2ff;
+$color-text: white;
+$color-red: #bc1a0f;
+$color-green: #518405;
+
+$font-basic: 'Lato', sans-serif;
+$font-highlight: 'Inika', serif;
+
+$font-smallest: 18px;
+$font-ratio: 1.2;
+
+$screen-tiny: 480px;
+$screen-small: 768px;
+$screen-normal: 992px;
+$screen-big: 1200px;
+$screen-huge: 2000px;
+$screen-smallest-font: $font-smallest / ($font-ratio / 100);
+
+$speed-rapid: 0.1s;
+$speed-fast: 0.25s;
+$speed: 0.5s;
+$speed-slow: 1s;
+
+@mixin font-size {
+  font-size: #{$font-ratio}vw;
+
+  @media (max-width: $screen-smallest-font) {
+    font-size: $font-smallest;
+  }
+}
+
+@mixin font-highlight {
+  font-family: $font-highlight;
+  font-style: italic;
+}
+
+@mixin pretty-box {
+  @include font-size;
+
+  border-radius: $small-unit;
+  padding: 0 2 * $unit;
+  margin: $unit;
+  box-sizing: border-box;
+  background: transparent;
+  color: $color-text;
+  border: 1px solid transparentize($color-grey, 0.4);
+  outline: none;
+  transition: border-color $speed-rapid;
+
+  &:hover, &:active, &:focus {
+    border-color: $color-grey;
+  }
+}

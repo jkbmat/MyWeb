@@ -1,0 +1,12 @@
+@import "~_style/base";
+
+.filter {
+  margin-bottom: 2 * $unit;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .filter-pretext {
+    margin-right: 2 * $unit;
+  }
+}

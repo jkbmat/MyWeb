@@ -1,0 +1,21 @@
+@import "~_style/base";
+
+.loggedInBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: transparentize(black, 0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 $unit * 2;
+  box-sizing: border-box;
+  opacity: 0.2;
+  transition: opacity $speed-fast;
+  z-index: 99;
+
+  &:hover {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,81 @@
+@import "~_style/base";
+
+.item-container {
+  flex-basis: 25%;
+
+  @media (max-width: $screen-big) {
+    flex-basis: 33.3%;
+  }
+
+  @media (max-width: $screen-small) {
+    flex-basis: 50%;
+  }
+
+  @media (max-width: $screen-tiny) {
+    flex-basis: 100%;
+  }
+
+  &.expanded {
+    flex-basis: 100%;
+  }
+
+  &:not(.expanded) {
+    .item-header {
+      border-radius: $unit !important;
+    }
+  }
+
+  .item {
+
+    margin: $unit;
+    border-radius: $unit;
+
+    .item-header {
+      @include font-highlight;
+
+      text-align: center;
+      padding: $unit;
+      cursor: pointer;
+      border-top: 3px solid;
+      background: transparentize(grey, 0.5);
+      border-radius: $unit $unit 0 0;
+      transition: background $speed-rapid;
+      position: relative;
+
+      &:hover {
+        background: transparentize(grey, 0.3);
+      }
+
+      .year {
+        font-size: 75%;
+        margin-left: $unit;
+      }
+    }
+
+    .item-details {
+      background: transparentize(grey, 0.7);
+      border-radius: 0 0 $unit $unit;
+      position: relative;
+
+      .item-picture {
+        width: 100%;
+        height: 250px;
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-size: cover;
+      }
+
+      .item-details-text {
+        padding: 1em;
+
+        .item-description {
+          margin-bottom: 1em;
+        }
+
+        .label {
+          margin-right: $unit;
+        }
+      }
+    }
+  }
+}

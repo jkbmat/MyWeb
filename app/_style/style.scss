@@ -1,0 +1,157 @@
+@import "base";
+
+body {
+  background: linear-gradient(to top, darken($color-bg, 5), transparent 15%) $color-bg;
+  background-attachment: fixed;
+  color: $color-text;
+  font-family: $font-basic;
+  line-height: 1.5em;
+  padding: 0;
+  margin: 0;
+
+  @include font-size;
+}
+
+h1 {
+  @include font-highlight;
+  font-weight: normal;
+  color: $color-highlight;
+  font-size: 400%;
+  margin-bottom: 1em;
+}
+
+.button {
+  @include font-highlight;
+  @include pretty-box;
+
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.9em;
+  text-align: center;
+
+  &.add {
+    background: url(~_img/add.png) no-repeat center;
+    background-size: 80%;
+
+    $size: 1.5em;
+    width: $size;
+    height: $size;
+  }
+}
+
+input, textarea {
+  @include font-size;
+  background: transparent;
+
+}
+
+label {
+  @include font-highlight;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: $unit * 2;
+
+  &>*:first-child {
+    flex-basis: 150px;
+    margin-right: 1em;
+    text-align: right;
+    flex-shrink: 1;
+  }
+
+  &>*:nth-child(2) {
+    flex-grow: 3;
+    flex-basis: 200px;
+
+    &>* {
+      margin: auto;
+    }
+  }
+}
+
+input, textarea {
+  @include pretty-box;
+  font-family: $font-basic;
+
+  padding-top: $unit;
+  padding-bottom: $unit;
+
+  &[type=submit], &[type=reset] {
+    cursor: pointer;
+  }
+
+  &[type=color] {
+    padding: 0;
+  }
+}
+
+.temporary:after {
+  $color1: transparentize($color-highlight, 0.85);
+  $color2: transparentize($color-grey, 0.95);
+
+  background: repeating-linear-gradient(
+                  45deg,
+                  $color1,
+                  $color1 10px,
+                  $color2 10px,
+                  $color2 20px
+  );
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  content: ' ';
+  left: 0;
+  top: 0;
+  z-index: 99;
+}
+
+.tick {
+  background: url("~_img/select.png") no-repeat;
+  background-size: contain;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  margin-right: $unit;
+}
+
+.selected .tick {
+  background-image: url('~_img/selected.png');
+}
+
+a:not(.image) {
+  color: white;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-bottom: 2px solid $color-highlight;
+  border-radius: $small-unit;
+  background-color: transparentize($color-highlight, 0.9);
+  padding: 0 $unit;
+
+  transition: background-color $speed-rapid;
+
+  &:hover {
+    background-color: transparentize($color-highlight, 0.8);
+  }
+}
+
+.loading {
+  &:before {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba($color-bg, 0.8) url('~_img/loading.svg') no-repeat center;
+    background-size: 80px 80px;
+    border-radius: inherit;
+    content: " ";
+    z-index: 9999999;
+    opacity: 1;
+  }
+}

@@ -1,0 +1,25 @@
+@import "~_style/style.scss";
+
+.navigation {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  position: fixed;
+  background: transparentize($color-bg, 0.2);
+  z-index: 99;
+  width: 100%;
+
+  a {
+    margin: 0 $unit;
+    opacity: 0.5;
+    transition: opacity $speed-slow;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &.navigation-link-active {
+      opacity: 1;
+    }
+  }
+}

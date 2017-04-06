@@ -1,0 +1,11 @@
+.item-table-row {
+  display: flex;
+
+  .item-table-caption {
+    width: 200px;
+  }
+
+  .item-table-content {
+    flex-grow: 1;
+  }
+}
