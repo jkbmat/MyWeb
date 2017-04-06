@@ -11,6 +11,7 @@ import Login from './auth/login';
 import Error404 from './error404';
 import EnsureLogin from './auth/ensureLogin';
 import Editor from './auth/editor/';
+import AboutMe from 'aboutMe';
 
 require('./_style/style.scss');
 require('file-loader?emitFile=false!./_html/index.html');
@@ -20,6 +21,7 @@ render((
     <Router history={browserHistory}>
       <Route path='/' component={Portfolio} />
       <Route path='/login' component={Login} />
+      <Route path='/about-me' component={AboutMe} />
       <Route component={EnsureLogin}>
         <Route path='/auth/secret' component={Portfolio} />
         <Route path='/auth' component={Editor} />
