@@ -57,12 +57,11 @@
       border-radius: 0 0 $unit $unit;
       position: relative;
 
-      .item-picture {
+      .image {
         width: 100%;
         height: 250px;
-        background-repeat: no-repeat;
-        background-position: center top;
-        background-size: cover;
+        display: block;
+        position: relative;
       }
 
       .item-details-text {

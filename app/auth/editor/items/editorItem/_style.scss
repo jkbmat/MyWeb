@@ -1,3 +1,5 @@
+@import "~_style/base";
+
 .item-table-row {
   display: flex;
 
@@ -7,5 +9,18 @@
 
   .item-table-content {
     flex-grow: 1;
+  }
+}
+
+.item-picture-wrapper {
+  label {
+    margin: 0;
+    input {
+      display: none;
+    }
+  }
+
+  .right {
+    padding: $small-unit $unit * 2 0;
   }
 }
