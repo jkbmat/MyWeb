@@ -1,8 +1,8 @@
 /**
  * Created by Jakub Matuška on 27.01.2017.
  */
-import { combineReducers } from 'redux';
-import { load } from 'react-cookie';
+import {combineReducers} from 'redux';
+import {load} from 'react-cookie';
 
 const defaultState = {
   Categories: [
@@ -196,17 +196,19 @@ const editorItems = (state = defaultState.Editor.Items, action) => {
     case 'REMOVE_ITEM':
       return state.filter((item) => item.id !== action.id);
 
-    case 'ADD_EDITOR_ITEM':console.log(action);
-      return state.concat({
-        id: action.id,
-        picture: '',
-        name: "",
-        year: (new Date).getFullYear(),
-        link: '',
-        category: action.categoryId,
-
-        temporary: true
-      });
+    case 'ADD_EDITOR_ITEM':
+      return state
+        .map((item) => Object.assign({}, item, {expanded: false}))
+        .concat({
+          id: action.id,
+          picture: '',
+          name: "",
+          year: (new Date).getFullYear(),
+          link: '',
+          category: action.categoryId,
+          expanded: true,
+          temporary: true
+        });
 
     case 'TOGGLE_CATEGORY':
     case 'CHECK_ALL':
@@ -217,7 +219,6 @@ const editorItems = (state = defaultState.Editor.Items, action) => {
       return state;
   }
 };
-
 
 
 const loading = (state = false, action) => {
@@ -254,10 +255,10 @@ const message = (state = defaultState.Message, action) => {
 const user = (state = defaultState.User, action) => {
   switch (action.type) {
     case 'LOGIN':
-      return Object.assign({}, state, { username: action.username, token: action.token });
+      return Object.assign({}, state, {username: action.username, token: action.token});
 
     case 'LOGOUT':
-      return { username: undefined, token: undefined };
+      return {username: undefined, token: undefined};
 
     default:
       return state;
