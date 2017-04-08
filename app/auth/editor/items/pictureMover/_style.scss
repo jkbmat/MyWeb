@@ -1,0 +1,10 @@
+@import "~_style/base";
+
+.picture-mover {
+  @include image-container;
+  cursor: move;
+
+  .pinnedPic {
+    z-index: -1;
+  }
+}
