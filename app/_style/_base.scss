@@ -56,3 +56,10 @@ $speed-slow: 1s;
     border-color: $color-grey;
   }
 }
+
+@mixin image-container {
+  width: 100%;
+  height: 250px;
+  display: block;
+  position: relative;
+}

@@ -15,9 +15,11 @@ module.exports = (app, connection, authenticate) => {
     const year = req.body.year || (new Date()).getFullYear();
     const description = req.body.description || "";
     const picture = req.body.picture || "";
+    const pictureX = req.body.pictureX || 0;
+    const pictureY = req.body.pictureY || 0;
     const link = req.body.link || "";
 
-    Items.createItem(connection, id, category, name, year, description, picture, link).then(
+    Items.createItem(connection, id, category, name, year, description, picture, pictureX, pictureY, link).then(
       (value) => res.json(value),
       (err) => res.sendStatus(400)
     );
@@ -50,9 +52,11 @@ module.exports = (app, connection, authenticate) => {
     const year = req.body.year || (new Date()).getFullYear();
     const description = req.body.description || "";
     const picture = req.body.picture || "";
+    const pictureX = req.body.pictureX || 0;
+    const pictureY = req.body.pictureY || 0;
     const link = req.body.link || "";
 
-    Items.setItem(connection, id, category, name, year, description, picture, link).then(
+    Items.setItem(connection, id, category, name, year, description, picture, pictureX, pictureY, link).then(
       (value) => res.json(value),
       (err) => res.sendStatus(400)
     );

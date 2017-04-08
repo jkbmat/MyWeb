@@ -4,29 +4,42 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {DisplayItem} from 'portfolio/item';
+import PictureMover from '../pictureMover';
 import * as Actions from './actions';
 
 import {commonPropsDiffer} from 'utils';
 
 import classNames from 'classnames';
-import isEqual from 'lodash';
 
 require('./_style.scss');
 
 let EditorItem = ({item, color, handlers, isChanged, isTemporary}) => (
   <div className={classNames("item-container", {expanded: item.expanded})}>
     <div className="item">
-      <div className={classNames("item-header", {temporary: isTemporary})} onClick={handlers.toggle} style={{borderTopColor: color}}>
+      <div className={classNames("item-header", {temporary: isTemporary})} onClick={handlers.toggle}
+           style={{borderTopColor: color}}>
         {item.name}
         <span className="year">({item.year})</span>
       </div>
+      {item.expanded &&
       <div className="item-details" style={{display: item.expanded ? 'block' : 'none'}}>
-        {item.picture && (
-          <a href={item.link} className="image" target="_blank">
-            <div className="item-picture" style={{backgroundImage: 'url(' + item.picture + ')'}}/>
-          </a>
-        )}
+        <div className="item-picture-wrapper">
+          {item.picture && (
+            <div className="image">
+              <PictureMover posChangeHandler={handlers.change.position} picture={item.picture} x={item.pictureX} y={item.pictureY}/>
+            </div>
+          )}
+          <div className="right">
+            {item.picture ?
+              <span className="button" onClick={handlers.removePicture}>Remove image</span>
+              :
+              <label>
+                <input type="file" onChange={handlers.addPicture}/>
+                <span className="button">Add image</span>
+              </label>
+            }
+          </div>
+        </div>
 
         <div className="item-details-text">
           <div className="item-table">
@@ -66,6 +79,7 @@ let EditorItem = ({item, color, handlers, isChanged, isTemporary}) => (
         </div>
 
       </div>
+      }
     </div>
   </div>
 );
@@ -86,8 +100,18 @@ export default connect(
         name: (e) => dispatch(Actions.onChange(ownProps.item.id, "name", e.target.value)),
         year: (e) => dispatch(Actions.onChange(ownProps.item.id, "year", e.target.value)),
         description: (e) => dispatch(Actions.onChange(ownProps.item.id, "description", e.target.value)),
-        link: (e) => dispatch(Actions.onChange(ownProps.item.id, "link", e.target.value))
+        link: (e) => dispatch(Actions.onChange(ownProps.item.id, "link", e.target.value)),
+        position: (x, y) => {
+          dispatch(Actions.onChange(ownProps.item.id, "pictureX", x));
+          dispatch(Actions.onChange(ownProps.item.id, "pictureY", y));
+        }
       },
+
+      addPicture: () => {
+
+      },
+      removePicture: () => dispatch(Actions.removePicture(ownProps.item.id)),
+
       toggle: () => dispatch(Actions.toggleItem(ownProps.item.id)),
       reset: () => dispatch(Actions.resetItem(ownProps.item.id)),
       remove: () => {

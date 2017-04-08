@@ -210,6 +210,14 @@ const editorItems = (state = defaultState.Editor.Items, action) => {
           temporary: true
         });
 
+    case 'REMOVE_EDITOR_PICTURE':
+      return state.map((item) => {
+        if (item.id !== action.id)
+          return item;
+
+        return Object.assign({}, item, {picture: '', pictureX: 0, pictureY: 0});
+      });
+
     case 'TOGGLE_CATEGORY':
     case 'CHECK_ALL':
     case 'UNCHECK_ALL':

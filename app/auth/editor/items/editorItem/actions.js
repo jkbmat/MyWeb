@@ -44,6 +44,8 @@ export const updateItem = (item) => (dispatch, getState) => {
       year: item.year,
       description: item.description,
       picture: item.picture,
+      pictureX: item.pictureX,
+      pictureY: item.pictureY,
       link: item.link
     })
   }).then(
@@ -85,6 +87,8 @@ export const createItem = (item) => (dispatch, getState) => {
       year: item.year,
       description: item.description,
       picture: item.picture,
+      pictureX: item.pictureX,
+      pictureY: item.pictureY,
       link: item.link
     })
   }).then(
@@ -147,3 +151,8 @@ export const removeItem = (item) => (dispatch, getState) => {
     dispatch(setMessage('Unable to remove item.', MESSAGE_ERROR));
   }
 };
+
+export const removePicture = (id) => ({
+  type: 'REMOVE_EDITOR_PICTURE',
+  id
+});
