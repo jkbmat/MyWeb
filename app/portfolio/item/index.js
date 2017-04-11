@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
+import ReactMarkdown from 'react-markdown';
 
 import PinnedPic from 'pinnedPic';
 
@@ -29,7 +30,7 @@ export const DisplayItem = ({item, color, toggleHandler}) => (
         <div className="item-details-text">
           {item.description && (
             <div className="item-description">
-              {item.description}
+              <ReactMarkdown source={item.description}/>
             </div>
           )}
 
