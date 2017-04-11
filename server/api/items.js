@@ -3,6 +3,20 @@
  */
 "use strict";
 
+const fs = require('fs');
+
+const uploadPath = '/uploads/';
+
+const path = require('path');
+const multer  = require('multer');
+const storage = multer.diskStorage({
+  destination: DIST_DIR + uploadPath,
+  filename: (req, file, cb) => {
+    cb(null, req.params.id + path.extname(file.originalname));
+  }
+});
+const uploadFolder = multer({ storage });
+
 const Items = require('../sql/items');
 
 module.exports = (app, connection, authenticate) => {
@@ -24,6 +38,14 @@ module.exports = (app, connection, authenticate) => {
       (err) => res.sendStatus(400)
     );
   }]);
+
+
+  // Image upload
+  app.post('/api/items/:id/picture', authenticate, uploadFolder.single('picture'), (req, res) => {
+    console.log('Uploaded a file to ' + req.file.path);
+
+    res.status(200).send(uploadPath + req.file.filename);
+  });
 
 
   // READ
@@ -73,4 +95,21 @@ module.exports = (app, connection, authenticate) => {
       (err) => res.sendStatus(400)
     );
   }]);
+  
+  app.delete('/api/items/:id/picture', authenticate, function (req, res) {
+    require('glob').glob(DIST_DIR + uploadPath + req.params.id + '.*', (err, file) => {
+      if (err)
+        return res.sendStatus(400);
+
+      if (!file.length)
+        return res.sendStatus(404);
+
+      fs.unlink(file[0], (err) => {
+        if (err)
+          return res.sendStatus(400);
+
+        return res.sendStatus(200);
+      })
+    });
+  })
 };

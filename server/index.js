@@ -15,7 +15,7 @@ const connection = require('./sql/connectDB');
 
 const runQuery = require('./sql/runQuery');
 
-const DIST_DIR = path.resolve(__dirname + '/../dist/');
+global.DIST_DIR = path.resolve(__dirname + '/../dist/');
 
 
 app.use(function (req, res, next) {

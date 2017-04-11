@@ -18,7 +18,7 @@ module.exports = {
     ),
 
   createItem: (connection, id, category, name, year, description, picture, pictureX, pictureY, link) => runQuery(connection,
-      'INSERT INTO `items` (`id`, `category`, `name`, `year`, `description`, `picture`, `pictureX`, `pictureY`, `link`) VALUES (?, ?, ?, ?, ?, ?, ?, ? ?)',
+      'INSERT INTO `items` (`id`, `category`, `name`, `year`, `description`, `picture`, `pictureX`, `pictureY`, `link`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [id, category, name, year, description, picture, pictureX, pictureY, link]
     ),
 
