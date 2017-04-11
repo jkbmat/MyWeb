@@ -116,7 +116,8 @@ const category = (state = defaultState.Categories, action) => {
       return state.concat({
         id: action.id,
         color: action.color,
-        name: action.name
+        name: action.name,
+        selected: true
       });
 
     case 'REMOVE_CATEGORY':
@@ -193,8 +194,15 @@ const editorItems = (state = defaultState.Editor.Items, action) => {
         return Object.assign({}, original, item);
       });
 
-    case 'REMOVE_ITEM':
+    case 'REMOVE_ITEM': {
+      const item = state.find((item) => item.id === action.id);
+
+      if (item.isPictureTemporary) {
+        URL.revokeObjectURL(item.picture);
+      }
+
       return state.filter((item) => item.id !== action.id);
+    }
 
     case 'ADD_EDITOR_ITEM':
       return state
@@ -210,12 +218,29 @@ const editorItems = (state = defaultState.Editor.Items, action) => {
           temporary: true
         });
 
-    case 'REMOVE_EDITOR_PICTURE':
+    case 'REMOVE_EDITOR_PICTURE': {
+      const item = state.find((item) => item.id === action.id);
+
+      if (item.isPictureTemporary) {
+        URL.revokeObjectURL(item.picture);
+      }
+
       return state.map((item) => {
         if (item.id !== action.id)
           return item;
 
-        return Object.assign({}, item, {picture: '', pictureX: 0, pictureY: 0});
+        return Object.assign({}, item, {picture: '', pictureFile: '', isPictureTemporary: false, pictureX: 0, pictureY: 0});
+      });
+    }
+
+    case 'ADD_EDITOR_TEMP_PICTURE':
+      return state.map((item) => {
+        if (item.id !== action.id)
+          return item;
+
+        return Object.assign({}, item, {
+          picture: action.url, isPictureTemporary: true, pictureX: 0, pictureY: 0
+        });
       });
 
     case 'TOGGLE_CATEGORY':

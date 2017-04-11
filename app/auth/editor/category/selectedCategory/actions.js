@@ -6,6 +6,7 @@ import fetch from 'isomorphic-fetch';
 import {setMessage, MESSAGE_ERROR} from 'message/actions';
 import {getEditorCategoryById, getCategoryById, makeToken} from 'utils';
 import {loadCategories} from '../actions';
+import {removeItem} from '../../items/editorItem/actions';
 
 export const fieldChange = (id, field, value) => ({
   type: 'EDITOR_CATEGORY_CHANGE',
@@ -132,29 +133,37 @@ export const removeCategory = (id) => (dispatch, getState) => {
 
   dispatch({type: 'LOADING_START'});
 
-  fetch('/api/categories/' + id,
-    {
-      method: 'DELETE',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        'Authorization': makeToken(getState())
-      }),
-    }).then((success) => {
-      if (success.ok) {
-        dispatch({type: 'LOADING_END'});
-        dispatch({type: 'REMOVE_CATEGORY', id});
+  (async () => {
+    let res;
 
-        dispatch(setMessage('Category ' + category.name + ' removed successfully.'));
-      }
-      else
-        fail()
-    },
-    (error) => {
-      fail();
-    });
+    try {
+      getState().Editor.Items
+        .filter((item) => item.category === id)
+        .forEach((item) => {
+          dispatch(removeItem(item, true));
+        });
 
-  function fail() {
-    dispatch({type: 'LOADING_END'});
-    dispatch(setMessage('Unable to remove category.', MESSAGE_ERROR));
-  }
+      res = await fetch('/api/categories/' + id,
+        {
+          method: 'DELETE',
+          headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': makeToken(getState())
+          }),
+        });
+
+      if (!res.ok)
+        throw {reson: 'Unable to remove category.'};
+
+      dispatch({type: 'LOADING_END'});
+      dispatch({type: 'REMOVE_CATEGORY', id});
+
+      dispatch(setMessage('Category ' + category.name + ' removed successfully.'));
+    }
+    catch (e) {
+      dispatch({type: "LOADING_END"});
+      dispatch(setMessage(e.reason || 'An error occurred.', MESSAGE_ERROR));
+    }
+
+  })();
 };
