@@ -14,13 +14,13 @@ class EditorItemList extends React.Component {
   }
 
   render () {
-    const { items, addItem, isCategorySelected } = this.props;
+    const { items, addItem, isCategorySelected, isCategoryTemp } = this.props;
 
     return (
       <div>
 
         <div className="item-editor itemList">
-          {isCategorySelected && <span className="button add" onClick={addItem}></span>}
+          {(isCategorySelected && !isCategoryTemp) && <span className="button add" onClick={addItem}></span>}
           {items.map((item) => <EditorItem item={item} key={item.id} />)}
         </div>
 
@@ -36,6 +36,7 @@ export default connect(
 
     return {
       isCategorySelected: selectedCategory != null,
+      isCategoryTemp: selectedCategory != null ? selectedCategory.temporary : null,
       items: selectedCategory == null ? [] :
         state.Editor.Items.filter(item => item.category === selectedCategory.id)
     }
