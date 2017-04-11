@@ -30,6 +30,20 @@ class PictureMover extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.picture !== this.props.picture) {
+      const img = new Image();
+      img.src = this.props.picture;
+
+      let that = this;
+
+      img.onload = () => {
+        that.pictureW = img.naturalWidth;
+        that.pictureH = img.naturalHeight;
+      }
+    }
+  }
+
   componentWillUnmount() {
     if (!this.hasMounted)
       return;

@@ -36,8 +36,23 @@ class PinnedPic extends React.Component {
     window.removeEventListener('resize', this.resizeHandler);
   }
 
-  componentDidUpdate() {
-    this.resizeHandler();
+  componentDidUpdate(prevProps) {
+    if (prevProps.picture !== this.props.picture) {
+      const img = new Image();
+      img.src = this.props.picture;
+
+      let that = this;
+
+      img.onload = () => {
+        that.pictureW = img.naturalWidth;
+        that.pictureH = img.naturalHeight;
+
+        that.resizeHandler();
+      }
+    }
+    else {
+      this.resizeHandler();
+    }
   }
 
   resizeHandler() {
@@ -94,8 +109,7 @@ class PinnedPic extends React.Component {
         className="pinnedPic"
         ref={(container) => this.container = container}
         style={{
-          background: 'url(' + this.props.picture + ')',
-          backgroundRepeat: 'no-repeat'
+          backgroundImage: 'url(' + this.props.picture + ')',
         }}
       >
 
