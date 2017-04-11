@@ -39,6 +39,11 @@ $speed-slow: 1s;
   font-style: italic;
 }
 
+@mixin font-basic {
+  font-family: $font-basic;
+  font-style: normal;
+}
+
 @mixin pretty-box {
   @include font-size;
 

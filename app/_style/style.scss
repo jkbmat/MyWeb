@@ -64,6 +64,7 @@ label {
   }
 
   &>*:nth-child(2) {
+    @include font-basic;
     flex-grow: 3;
     flex-basis: 200px;
 
@@ -164,4 +165,8 @@ a:not(.image) {
     z-index: 9999999;
     opacity: 1;
   }
+}
+
+input[type=file] {
+  display: none;
 }
