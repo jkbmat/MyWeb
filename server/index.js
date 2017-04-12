@@ -8,6 +8,7 @@ const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const uuid = require('uuid/v4');
+const hasher = require('password-hash-and-salt');
 
 const app = express();
 app.disable('x-powered-by');
@@ -41,24 +42,44 @@ app.post('/login', function (req, res) {
   const password = req.body.password;
   const token = uuid();
 
-  Promise.all([
-    runQuery(connection, 'UPDATE `users` SET `token` = NULL WHERE `last_login` < DATE_SUB(NOW(), INTERVAL 30 DAY)', []),
-    runQuery(connection, 'UPDATE `users` SET `last_login` = NOW(), `token` = ? WHERE `username` = ? AND `hash` = ?', [token, username, password])
-  ]).then(
-    (values) => {
-      if (values[1].affectedRows)
-        res.json({ username, token });
-      else {
-        console.log("Bad login: ", username, password);
-        res.sendStatus(400);
-      }
-    },
-
-    (error) => {
-      console.log(error);
-      res.sendStatus(500);
+  hasher(password).hash((err, hash) => {
+    if (err) {
+      console.log(err);
+      return res.sendStatus(500);
     }
-  );
+
+    (async () => {
+      try {
+        await runQuery(connection, 'UPDATE `users` SET `token` = NULL WHERE `last_login` < DATE_SUB(NOW(), INTERVAL 30 DAY)', []);
+
+        let response = await runQuery(connection, 'SELECT `hash` FROM `users` WHERE `username` = ?', [username]);
+
+        if (response.length === 0) {
+          console.log("Bad username: " + username);
+          return res.sendStatus(400);
+        }
+
+        hasher(password).verifyAgainst(response[0].hash, async (error, verified) => {
+          if (error) {
+            console.log(error);
+            return res.sendStatus(500);
+          }
+
+          if (!verified) {
+            console.log("Bad login: ", username, password);
+            return res.sendStatus(400);
+          }
+
+          await runQuery(connection, 'UPDATE `users` SET `last_login` = NOW(), `token` = ? WHERE `username` = ?', [token, username]);
+          res.json({ username, token });
+        });
+      }
+      catch (e) {
+        console.log("Something went wrong while logging in.");
+        return res.sendStatus(500);
+      }
+    })();
+  });
 });
 
 
