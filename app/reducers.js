@@ -86,6 +86,8 @@ const defaultState = {
     username: load('username'),
     token: load('token'),
   },
+
+  OverlayPicture: ''
 };
 
 
@@ -379,6 +381,21 @@ const editorCategories = (state = defaultState.Editor.Categories, action) => {
   }
 };
 
+const overlayPicture = (state = defaultState.OverlayPicture, action) => {
+  switch(action.type) {
+    case 'SET_OVERLAY': {
+      return action.picture
+    }
+
+    case 'CLOSE_OVERLAY': {
+      return '';
+    }
+
+    default:
+      return state;
+  }
+};
+
 
 export default combineReducers({
   Categories: category,
@@ -389,5 +406,6 @@ export default combineReducers({
   Items: items,
   Loading: loading,
   Message: message,
-  User: user
+  User: user,
+  OverlayPicture: overlayPicture
 })

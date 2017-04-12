@@ -7,24 +7,29 @@ import ReactMarkdown from 'react-markdown';
 
 import PinnedPic from 'pinnedPic';
 
+import {setOverlay} from 'main/actions';
 import {getItemById, getCategoryById} from 'utils';
 
 require('./_style.scss');
 const classNames = require('classnames');
 
-export const DisplayItem = ({item, color, toggleHandler}) => (
+export const DisplayItem = ({item, color, toggleHandler, enlargePictureHandler}) => (
   <div className={classNames("item-container", {expanded: item.expanded})}>
     <div className="item">
       <div className="item-header" onClick={toggleHandler} style={{borderTopColor: color}}>
         {item.name}
         <span className="year">({item.year})</span>
+        {!item.expanded && (
+          <div className="item-header-pic">
+            <PinnedPic picture={item.picture} x={item.pictureX} y={item.pictureY}/>
+          </div>)}
       </div>
       {item.expanded &&
       <div className="item-details" style={{display: item.expanded ? 'block' : 'none'}}>
         {item.picture && (
-          <a href={item.link} className="image" target="_blank">
+          <div className="image" onClick={enlargePictureHandler}>
             <PinnedPic picture={item.picture} x={item.pictureX} y={item.pictureY}/>
-          </a>
+          </div>
         )}
 
         <div className="item-details-text">
@@ -47,11 +52,12 @@ export const DisplayItem = ({item, color, toggleHandler}) => (
 );
 
 export const Item = connect(
-  (store, ownProps) => {
-    let item = ownProps.item;
-    return {
-      color: ownProps.color,
-      toggleHandler: ownProps.onToggle
-    };
-  }
+  (store, ownProps) => ({
+    color: ownProps.color,
+    toggleHandler: ownProps.onToggle
+  }),
+
+  (dispatch, ownProps) => ({
+    enlargePictureHandler: () => dispatch(setOverlay(ownProps.item.picture))
+  })
 )(DisplayItem);
