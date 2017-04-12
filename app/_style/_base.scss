@@ -1,12 +1,12 @@
 $small-unit: 3px;
 $unit: 5px;
 
-$color-grey: #eeeeee;
-$color-bg: #24474c;
-$color-highlight: #bcf2ff;
-$color-text: white;
-$color-red: #bc1a0f;
-$color-green: #518405;
+$color-grey: rgb(130, 130, 130);
+$color-bg: white;
+$color-highlight: rgb(203, 38, 29);
+$color-text: black;
+$color-red: #e08376;
+$color-green: #b7e172;
 
 $font-basic: 'Lato', sans-serif;
 $font-highlight: 'Inika', serif;
@@ -36,7 +36,7 @@ $speed-slow: 1s;
 
 @mixin font-highlight {
   font-family: $font-highlight;
-  font-style: italic;
+  //font-style: italic;
 }
 
 @mixin font-basic {
@@ -51,7 +51,7 @@ $speed-slow: 1s;
   padding: 0 2 * $unit;
   margin: $unit;
   box-sizing: border-box;
-  background: transparent;
+  background: $color-bg;
   color: $color-text;
   border: 1px solid transparentize($color-grey, 0.4);
   outline: none;

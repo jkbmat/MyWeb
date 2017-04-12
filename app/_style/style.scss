@@ -14,25 +14,29 @@ body {
 
 h1 {
   @include font-highlight;
-  font-weight: normal;
+  font-weight: bold;
   color: $color-highlight;
   font-size: 400%;
   margin-bottom: 1em;
+  margin-left:-0.5em;
 }
 
 .button {
   @include font-highlight;
   @include pretty-box;
 
+  background-color: lighten($color-grey, 0);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 1.9em;
   text-align: center;
+  color: white;
 
   &.add {
     background: url(~_img/add.png) no-repeat center;
+    background-color: $color-grey;
     background-size: 80%;
 
     $size: 1.5em;
@@ -130,14 +134,18 @@ a:not(.image) {
   border: 2px solid transparent;
   border-bottom: 2px solid $color-highlight;
   border-radius: $small-unit;
-  background-color: transparentize($color-highlight, 0.9);
+  background-color: transparentize($color-highlight, 0.4);
   padding: 0 $unit;
 
   transition: background-color $speed-rapid;
 
   &:hover {
-    background-color: transparentize($color-highlight, 0.8);
+    background-color: transparentize($color-highlight, 0.2);
   }
+}
+
+p {
+  margin: 0;
 }
 
 .center {
