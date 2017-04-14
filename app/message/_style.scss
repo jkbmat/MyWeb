@@ -9,7 +9,6 @@
   padding: $unit * 2;
   border-radius: 0 0 $unit $unit;
   text-align: center;
-  box-sizing: border-box;
   opacity: 1;
   transition: top $speed-slow, opacity $speed-fast;
   z-index: 999;

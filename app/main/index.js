@@ -14,28 +14,84 @@ import * as Actions from './actions';
 require('./_style.scss');
 const classNames = require('classnames');
 
-let Main = ({isLoggedIn, loading, title, children, overlayPicture, closeOverlay}) => (
-  <div className={classNames("page", {loading})}>
-    <Message />
-    {isLoggedIn && <LoggedInBar />}
-    <Navigation />
-    <div className="robot">
-      <div className="fotka">&nbsp;</div>
-    </div>
-    <div className="main">
-      <h1>{title}.</h1>
-      {children}
-    </div>
-    {overlayPicture && (
-      <div className="overlay" onClick={closeOverlay}>
-        <div className="overlay-close button" onClick={closeOverlay}>Close</div>
-        <div className="picture-viewer" style={{
-          backgroundImage: 'url(' + overlayPicture + ')'
-        }} />
+class Main extends React.Component {
+  componentDidMount() {
+    this.resizeHandler = this.resizeOverlay.bind(this);
+    this.closeHandler = this.closeHandler.bind(this);
+
+    window.addEventListener("resize", this.resizeHandler);
+
+    this.resizeHandler();
+  }
+
+  componentDidUpdate() {
+    this.resizeHandler();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resizeHandler);
+  }
+
+  resizeOverlay() {
+    if (!this.props.overlayPicture)
+      return;
+
+    const img = new Image();
+    const that = this;
+    img.src = this.props.overlayPicture;
+    img.onload = () => {
+      const containerSize = {
+        w: that.overlayPicture.scrollWidth,
+        h: that.overlayPicture.scrollHeight
+      };
+
+      const imageSize = {
+        w: img.naturalWidth,
+        h: img.naturalHeight
+      };
+
+      that.overlayPicture.style.backgroundSize = (containerSize.w < imageSize.w || containerSize.h < imageSize.h) ?
+        "contain" : "auto";
+      that.overlayPicture.style.backgroundImage = 'url(' + that.props.overlayPicture + ')';
+    }
+  }
+
+  closeHandler() {
+    this.overlay.classList.add("removing");
+    this.overlay.addEventListener("animationend", this.props.closeOverlay);
+  }
+
+  render() {
+    const {isLoggedIn, loading, title, children, overlayPicture} = this.props;
+
+    return (
+      <div className={classNames("page", {loading})}>
+        <Message />
+        {isLoggedIn && <LoggedInBar />}
+        <Navigation />
+        <div className="photo-container">
+          <div className="photo" />
+        </div>
+        <div className="main">
+          <h1>{title}.</h1>
+          {children}
+        </div>
+        {overlayPicture && (
+          <div className="overlay" onClick={this.closeHandler} ref={(overlay) => this.overlay = overlay}>
+
+            <div className="overlay-close button" onClick={this.closeHandler}>Close</div>
+
+            <div
+              className="picture-viewer"
+              ref={(overlayPicture) => this.overlayPicture = overlayPicture}
+            />
+          </div>
+        )}
       </div>
-    )}
-  </div>
-);
+    );
+  }
+}
+
 
 export default connect(
   (store, ownProps) => ({

@@ -1,5 +1,9 @@
 @import "base";
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background: linear-gradient(to top, darken($color-bg, 5), transparent 15%) $color-bg;
   background-attachment: fixed;
@@ -10,15 +14,6 @@ body {
   margin: 0;
 
   @include font-size;
-}
-
-h1 {
-  @include font-highlight;
-  font-weight: bold;
-  color: $color-highlight;
-  font-size: 400%;
-  margin-bottom: 1em;
-  margin-left:-0.5em;
 }
 
 .button {

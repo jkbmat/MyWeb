@@ -16,7 +16,7 @@ $font-ratio: 1.2;
 
 $screen-tiny: 480px;
 $screen-small: 768px;
-$screen-normal: 992px;
+$screen-normal: 1023px;
 $screen-big: 1200px;
 $screen-huge: 2000px;
 $screen-smallest-font: $font-smallest / ($font-ratio / 100);
@@ -50,7 +50,6 @@ $speed-slow: 1s;
   border-radius: $small-unit;
   padding: 0 2 * $unit;
   margin: $unit;
-  box-sizing: border-box;
   background: $color-bg;
   color: $color-text;
   border: 1px solid transparentize($color-grey, 0.4);

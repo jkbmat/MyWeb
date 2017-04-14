@@ -6,18 +6,44 @@
   min-height: 100%;
   display: flex;
 
-  .fotka {
-    width: 300px;
-    height: 300px;
-    background-image: url(~_img/head.png);
-    background-size: cover;
-    background-position: 50% 0%;
-    background-repeat: no-repeat;
-    transform: rotate(90deg);
-    position: fixed;
-    left: -50px;
-    top: 0;
-    margin: auto;
+  .photo-container {
+    width: 25%;
+    max-width: 400px;
+
+    @media (min-width: $screen-normal) {
+      width: 25%;
+    }
+
+    @media (min-width: $screen-big) {
+      width: 25%;
+    }
+
+    @media (min-width: $screen-huge) {
+      width: 25%;
+    }
+
+    @media (max-width: $screen-normal) {
+      width: 0;
+
+    }
+
+    position: relative;
+    height: 100%;
+
+    .photo {
+      width: 250px;
+      height: 100%;
+      background: url(~_img/head.png) no-repeat top left;
+      background-size: 100%;
+      position: fixed;
+      left: -50px;
+      top: 0;
+      //content: "";
+
+      @media (max-width: $screen-normal) {
+        transform: scaleY(-1);
+      }
+    }
   }
 
   .robot {
@@ -25,7 +51,6 @@
     flex-basis: 25%;
     margin: 0 4em 0 2em;
     align-self: center;
-    box-sizing: border-box;
     width: 25%;
 
     background-position: center;
@@ -53,33 +78,68 @@
     margin-top: 3vh;
     padding: 4 * $unit;
     position: relative;
-    flex-shrink: 1;
-    width: 75%;
-    box-sizing: border-box;
+    flex-grow: 1;
+    //width: 75%;
     padding-bottom: 3em;
-    //overflow: hidden;
+    background: transparentize($color-bg, 0.4);
 
-    flex-basis: 75%;
+    /*flex-basis: 75%;
 
     @media (max-width: $screen-normal), (max-height: $screen-tiny) {
       margin-top: 0;
       flex-basis: 100%;
+    }*/
+
+    h1 {
+      @include font-highlight;
+      font-weight: bold;
+      color: $color-highlight;
+      font-size: 400%;
+      margin-bottom: 1em;
+      margin-left: -0.5em;
+
+      @media (max-width: $screen-normal) {
+        margin-left: 0em;
+      }
     }
   }
 }
 
 .overlay {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.8);
   z-index: 999;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: fadeIn $speed-rapid;
+
+  &.removing {
+    animation: fadeOut $speed-rapid;
+  }
 
   .overlay-close {
     position: fixed;
@@ -89,12 +149,12 @@
   }
 
   .picture-viewer {
+
     height: 90%;
     width: 90%;
-    border-radius: $unit;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
+
   }
 }
 
