@@ -22,6 +22,10 @@
   }
 }
 
+.editor-image {
+  @include image-container;
+}
+
 .file-buttons {
   margin-top: -3 * $unit;
   margin-bottom: 2 * $unit;

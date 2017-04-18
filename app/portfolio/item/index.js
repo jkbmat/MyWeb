@@ -11,45 +11,83 @@ import {setOverlay} from 'main/actions';
 import {getItemById, getCategoryById} from 'utils';
 
 require('./_style.scss');
-const classNames = require('classnames');
 
-export const DisplayItem = ({item, color, toggleHandler, enlargePictureHandler}) => (
-  <div className={classNames("item-container", {expanded: item.expanded})}>
-    <div className="item">
-      <div className="item-header" onClick={toggleHandler} style={{borderTopColor: color}}>
-        {item.name}
-        <span className="year">({item.year})</span>
-        {!item.expanded && (
-          <div className="item-header-pic">
-            <PinnedPic picture={item.picture} x={item.pictureX} y={item.pictureY}/>
-          </div>)}
-      </div>
-      {item.expanded &&
-      <div className="item-details" style={{display: item.expanded ? 'block' : 'none'}}>
-        {item.picture && (
-          <div className="image" onClick={enlargePictureHandler}>
-            <PinnedPic picture={item.picture} x={item.pictureX} y={item.pictureY}/>
-          </div>
-        )}
 
-        <div className="item-details-text">
-          {item.description && (
-            <div className="item-description">
-              <ReactMarkdown source={item.description}/>
-            </div>
-          )}
+export class DisplayItem extends React.Component {
+  componentDidMount() {
+    this.closeHandler = this.closeHandler.bind(this);
+  }
 
-          {item.link && (
-            <span>
-            <span className="label">Link: </span><a href={item.link}>{item.link}</a>
-          </span>
-          )}
-        </div>
-      </div>
+  componentDidUpdate(prevProps) {
+    if (this.props.item.expanded && prevProps.item.expanded !== this.props.item.expanded) {
+      function getOffsetTop (el) {
+        return el.offsetTop + (el.offsetParent ? getOffsetTop(el.offsetParent) : 0);
       }
-    </div>
-  </div>
-);
+
+      window.scrollTo(0, getOffsetTop(this.container) - 70);
+    }
+  }
+
+  closeHandler() {
+    const that = this;
+
+    this.container.classList.add("removing");
+    this.container.addEventListener("animationend", function onEnd() {
+      that.container.removeEventListener("animationend", onEnd);
+      that.props.toggleHandler();
+    });
+  }
+
+  render() {
+    const {item, color, toggleHandler, enlargePictureHandler} = this.props;
+
+    return item.expanded ?
+      (
+        <div className="portfolio__item__container--expanded" ref={(container) => this.container = container}>
+          <div className="portfolio__item" style={{borderColor: color}}>
+            <div className="portfolio__item__title" onClick={() => this.closeHandler()}>
+              <span className="portfolio__item__title__name">{item.name}</span>
+              <span className="portfolio__item__title__year">({item.year})</span>
+            </div>
+
+            <div className="portfolio__item__pic" onClick={enlargePictureHandler}>
+              <PinnedPic picture={item.picture} x={item.pictureX} y={item.pictureY}/>
+            </div>
+
+            <div className="portfolio__item__details">
+              {item.description && (
+                <div className="portfolio__item__details__description">
+                  <ReactMarkdown source={item.description}/>
+                </div>
+              )}
+
+              {item.link && (
+                <div className="portfolio__item__details__link">
+                  <span className="portfolio__item__details__label">Link: </span><a href={item.link}>{item.link}</a>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ) :
+      (
+        <div className="portfolio__item__container" ref={(container) => this.container = container}>
+          <div className="portfolio__item__inside-container">
+            <div className="portfolio__item" onClick={toggleHandler} style={{borderColor: color}}>
+              <div className="portfolio__item__preview__pic">
+                <PinnedPic picture={item.picture} x={item.pictureX} y={item.pictureY}/>
+              </div>
+              <div className="portfolio__item__preview__title">
+                <span className="portfolio__item__preview__title__name">{item.name}</span>
+                <span className="portfolio__item__preview__title__year">({item.year})</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+  }
+}
+
 
 export const Item = connect(
   (store, ownProps) => ({

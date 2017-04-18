@@ -30,7 +30,7 @@ class EditorItem extends React.Component {
           <div className="item-details" style={{display: item.expanded ? 'block' : 'none'}}>
             <div className="item-picture-wrapper">
               {item.picture && (
-                <div className="image">
+                <div className="editor-image">
                   <PictureMover posChangeHandler={handlers.change.position} picture={item.picture} x={item.pictureX}
                                 y={item.pictureY}/>
                 </div>
@@ -58,12 +58,12 @@ class EditorItem extends React.Component {
 
                 <label>
                   <span>Name:</span>
-                  <input type="text" value={item.name} onChange={handlers.change.name}/>
+                  <input type="text" value={item.name} onChange={handlers.change.name} required />
                 </label>
 
                 <label>
                   <span>Year:</span>
-                  <input type="number" value={item.year} onChange={handlers.change.year}/>
+                  <input type="number" value={item.year} onChange={handlers.change.year} required />
                 </label>
 
                 <label>
