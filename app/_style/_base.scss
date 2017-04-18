@@ -5,11 +5,11 @@ $color-grey: rgb(130, 130, 130);
 $color-bg: white;
 $color-highlight: rgb(203, 38, 29);
 $color-text: black;
-$color-red: #e08376;
-$color-green: #b7e172;
+$color-red: #fb7765;
+$color-green: #89d26d;
 
 $font-basic: 'Lato', sans-serif;
-$font-highlight: 'Inika', serif;
+$font-highlight: 'Crete Round', serif;
 
 $font-smallest: 18px;
 $font-ratio: 1.2;
@@ -66,4 +66,22 @@ $speed-slow: 1s;
   height: 250px;
   display: block;
   position: relative;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

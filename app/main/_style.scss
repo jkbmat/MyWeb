@@ -9,22 +9,26 @@
   .photo-container {
     width: 25%;
     max-width: 400px;
+    transition: min-width $speed-fast;
 
     @media (min-width: $screen-normal) {
       width: 25%;
+      min-width: 25%;
     }
 
     @media (min-width: $screen-big) {
       width: 25%;
+      min-width: 25%;
     }
 
     @media (min-width: $screen-huge) {
       width: 25%;
+      min-width: 25%;
     }
 
     @media (max-width: $screen-normal) {
       width: 0;
-
+      min-width: 0;
     }
 
     position: relative;
@@ -92,7 +96,7 @@
 
     h1 {
       @include font-highlight;
-      font-weight: bold;
+      font-weight: normal;
       color: $color-highlight;
       font-size: 400%;
       margin-bottom: 1em;
@@ -106,24 +110,6 @@
 }
 
 .overlay {
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-
   position: fixed;
   top: 0;
   left: 0;
@@ -136,10 +122,6 @@
   align-items: center;
   justify-content: center;
   animation: fadeIn $speed-rapid;
-
-  &.removing {
-    animation: fadeOut $speed-rapid;
-  }
 
   .overlay-close {
     position: fixed;
