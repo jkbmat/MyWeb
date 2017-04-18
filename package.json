@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --hot --inline --content-base dist/",
-    "server": "node ./server/index.js"
+    "serve": "node ./server/index.js"
   },
   "author": "Jakub Matuska",
   "license": "ISC",
@@ -41,6 +41,7 @@
     "body-parser": "^1.16.0",
     "express": "^4.14.1",
     "glob": "^7.1.1",
+    "moment": "^2.18.1",
     "multer": "^1.3.0",
     "mysql": "^2.13.0",
     "mysql2": "^1.1.2",
