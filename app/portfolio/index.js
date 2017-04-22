@@ -9,7 +9,7 @@ import Main from 'main';
 
 export default () => (
   <Main title="Hello">
-    <p>My name is Jakub Matuška and here are some of the things I've done:</p>
+    <p>My name is Jakub Matuška and here are some of the things I've made:</p>
     <br />
 
     <Filter />
