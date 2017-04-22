@@ -3,13 +3,20 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
+import ClassNames from 'classnames';
 
 require('./_style.scss');
 
 
 class PinnedPic extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {hasMounted: false};
+  }
+
   componentDidMount() {
     this.resizeHandler = this.resizeHandler.bind(this);
+
 
     this.targetSize = 30;
 
@@ -23,14 +30,14 @@ class PinnedPic extends React.Component {
       that.pictureH = img.naturalHeight;
 
       window.addEventListener('resize', that.resizeHandler);
-      that.hasMounted = true;
+      that.setState(() => ({hasMounted: true}));
 
       that.resizeHandler();
     };
   }
 
   componentWillUnmount() {
-    if (!this.hasMounted)
+    if (!this.state.hasMounted)
       return;
 
     window.removeEventListener('resize', this.resizeHandler);
@@ -38,6 +45,8 @@ class PinnedPic extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.picture !== this.props.picture) {
+      this.setState(() => ({hasMounted: false}));
+
       const img = new Image();
       img.src = this.props.picture;
 
@@ -46,6 +55,8 @@ class PinnedPic extends React.Component {
       img.onload = () => {
         that.pictureW = img.naturalWidth;
         that.pictureH = img.naturalHeight;
+
+        that.setState(() => ({hasMounted: true}));
 
         that.resizeHandler();
       }
@@ -103,8 +114,8 @@ class PinnedPic extends React.Component {
 
   render() {
     return (
-      <div className="pinnedPic-wrapper">
-        {this.props.showTarget && <div className="pinnedPic-target" ref={(target) => this.target = target} />}
+      <div className={ClassNames("pinnedPic-wrapper", {loading: !this.state.hasMounted})}>
+        {this.props.showTarget && <div className="pinnedPic-target" ref={(target) => this.target = target}></div>}
       <div
         className="pinnedPic"
         ref={(container) => this.container = container}
@@ -124,7 +135,7 @@ export default connect(
     centerX: ownProps.x,
     centerY: ownProps.y,
     picture: ownProps.picture,
-    showTarget: ownProps.showTarget
+    showTarget: ownProps.showTarget,
   }),
 
   (dispatch, ownProps) => ({})

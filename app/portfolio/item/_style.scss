@@ -35,6 +35,27 @@
     top: 0;
     left: 0;
 
+    .portfolio__item--magnify {
+      &:after {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        content: '';
+        top: 0;
+        left: 0;
+        background: url(~_img/magnify.png) rgba($color-grey, 0.3) no-repeat center;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity $speed-rapid;
+        z-index: 10;
+      }
+
+      &:hover:after {
+        opacity: 1;
+      }
+    }
+
     .portfolio__item {
       position: relative;
       width: 100%;
@@ -44,9 +65,14 @@
       border-bottom: $small-unit solid;
       overflow: hidden;
 
+      .portfolio__item__preview__pic {
+        height: 100%;
+      }
+
       .portfolio__item__preview__title {
         @include font-highlight;
 
+        z-index: 10;
         width: 100%;
         padding: $unit;
         text-align: center;
@@ -112,6 +138,7 @@
         cursor: pointer;
         opacity: 0;
         transition: opacity $speed-rapid;
+        z-index: 10;
       }
 
       &:hover:after {
@@ -134,6 +161,107 @@
 
       .portfolio__item__details__link {
 
+      }
+    }
+  }
+}
+
+.item-container {
+  flex-basis: 25%;
+
+  @media (max-width: $screen-big) {
+    flex-basis: 33.3%;
+  }
+
+  @media (max-width: $screen-small) {
+    flex-basis: 50%;
+  }
+
+  @media (max-width: $screen-tiny) {
+    flex-basis: 100%;
+  }
+
+  &.expanded {
+    flex-basis: 100%;
+  }
+
+  &:not(.expanded) {
+    .item-header {
+      border-radius: $unit !important;
+    }
+  }
+
+  .item {
+
+    margin: $unit;
+    border-radius: $unit;
+
+    .item-header {
+      @include font-highlight;
+
+      text-align: center;
+      padding: $unit;
+      cursor: pointer;
+      border-top: 3px solid;
+      background: transparentize(grey, 0.5);
+      border-radius: $unit $unit 0 0;
+      transition: background $speed-rapid;
+      position: relative;
+
+      &:hover {
+        background: transparentize(grey, 0.3);
+      }
+
+      .year {
+        font-size: 75%;
+        margin-left: $unit;
+      }
+
+      .item-header-pic {
+        width: 100%;
+        height: 200px;
+      }
+
+    }
+
+    .item-details {
+      background: transparentize(grey, 0.7);
+      border-radius: 0 0 $unit $unit;
+      position: relative;
+
+      .image {
+        @include image-container;
+
+        &:after {
+          display: block;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          content: '';
+          top: 0;
+          left: 0;
+          background: url(~_img/magnify.png) rgba($color-grey, 0.3) no-repeat center;
+          cursor: pointer;
+          opacity: 0;
+          transition: opacity $speed-rapid;
+        }
+
+        &:hover:after {
+          opacity: 1;
+        }
+
+      }
+
+      .item-details-text {
+        padding: 1em;
+
+        .item-description {
+          margin-bottom: 1em;
+        }
+
+        .label {
+          margin-right: $unit;
+        }
       }
     }
   }
