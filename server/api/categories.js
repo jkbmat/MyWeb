@@ -12,8 +12,10 @@ module.exports = (app, connection, authenticate) => {
     const id = req.body.id;
     const color = req.body.color || "#000000";
     const name = req.body.name || "";
+    const autoOpen = req.body.autoOpen ? 1 : 0;
+    const defaultChecked = req.body.defaultChecked ? 1 : 0;
 
-    Categories.createCategory(connection, id, color, name).then(
+    Categories.createCategory(connection, id, color, name, autoOpen, defaultChecked).then(
       (value) => res.json(value),
       (err) => res.sendStatus(400)
     );
@@ -43,8 +45,10 @@ module.exports = (app, connection, authenticate) => {
     const id = req.params.id;
     const color = req.body.color || "#000000";
     const name = req.body.name || "";
+    const autoOpen = req.body.autoOpen ? 1 : 0;
+    const defaultChecked = req.body.defaultChecked ? 1 : 0;
 
-    Categories.setCategory(connection, id, color, name).then(
+    Categories.setCategory(connection, id, color, name, autoOpen, defaultChecked).then(
       (value) => res.json(value),
       (err) => res.sendStatus(400)
     );

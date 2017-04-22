@@ -12,14 +12,14 @@ module.exports = {
   getCategory: (connection, id) =>
     runQuery(connection, 'SELECT * FROM `categories` WHERE `id` = ?', [id]),
 
-  setCategory: (connection, id, color, name) => runQuery(connection,
-    'UPDATE `categories` SET `color` = ?, `name` = ? WHERE `id` = ?',
-    [color, name, id]
+  setCategory: (connection, id, color, name, autoOpen, defaultChecked) => runQuery(connection,
+    'UPDATE `categories` SET `color` = ?, `name` = ?, `autoOpen` = ?, defaultChecked = ? WHERE `id` = ?',
+    [color, name, autoOpen, defaultChecked, id]
   ),
 
-  createCategory: (connection, id, color, name) => runQuery(connection,
-    'INSERT INTO `categories` (`id`, `color`, `name`) VALUES (?, ?, ?)',
-    [id, color, name]
+  createCategory: (connection, id, color, name, autoOpen, defaultChecked) => runQuery(connection,
+    'INSERT INTO `categories` (`id`, `color`, `name`, `autoOpen`, `defaultChecked`) VALUES (?, ?, ?, ?, ?)',
+    [color, name, autoOpen, defaultChecked, id]
   ),
 
   deleteCategory: (connection, id) =>

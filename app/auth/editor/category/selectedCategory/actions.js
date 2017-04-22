@@ -24,7 +24,7 @@ export const submit = (id) => (dispatch, getState) => {
 };
 
 export const updateCategory = (id) => (dispatch, getState) => {
-  const {name, color} = getEditorCategoryById(getState(), id);
+  const {name, color, defaultChecked, autoOpen} = getEditorCategoryById(getState(), id);
 
   dispatch({type: "LOADING_START"});
 
@@ -36,7 +36,9 @@ export const updateCategory = (id) => (dispatch, getState) => {
     }),
     body: JSON.stringify({
       name,
-      color
+      color,
+      defaultChecked,
+      autoOpen
     })
   }).then(
     (success) => {
@@ -79,7 +81,7 @@ export const resetChanges = (id) => (dispatch, getState) => {
 
 export const createCategory = (id) => (dispatch, getState) => {
   const category = getEditorCategoryById(getState(), id);
-  const {name, color} = category;
+  const {name, color, defaultChecked, autoOpen} = category;
 
   dispatch({type: 'LOADING_START'});
 
@@ -93,7 +95,9 @@ export const createCategory = (id) => (dispatch, getState) => {
       body: JSON.stringify({
         id,
         name,
-        color
+        color,
+        defaultChecked,
+        autoOpen
       })
     }).then((success) => {
       if (success.ok) {

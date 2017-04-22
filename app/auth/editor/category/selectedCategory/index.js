@@ -11,7 +11,7 @@ import {getEditorCategoryById, getCategoryById, commonPropsDiffer} from 'utils';
 require('./_style.scss');
 
 
-let Category = ({name, color, changed, temporary, showColorPicker, submitHandler, nameChangeHandler, resetHandler, removeHandler, colorChangeHandler, colorPickerClickHandler}) => (
+let Category = ({autoOpenChangeHandler, defaultCheckedChangeHandler, autoOpen, defaultChecked, name, color, changed, temporary, showColorPicker, submitHandler, nameChangeHandler, resetHandler, removeHandler, colorChangeHandler, colorPickerClickHandler}) => (
   <form className="selectedCategory" style={{borderTopColor: color}} onSubmit={submitHandler}>
     <label>
       <span className="label">Name: </span>
@@ -20,14 +20,22 @@ let Category = ({name, color, changed, temporary, showColorPicker, submitHandler
     <label>
       <span className="label">Color: </span>
       <div>
-        <div className="colorPickerButton" style={{backgroundColor: color}} onClick={colorPickerClickHandler}/>
+        <div className="colorPickerButton" style={{backgroundColor: color}} onClick={colorPickerClickHandler}></div>
         {showColorPicker && (
           <div className="colorPopover">
-            <div className="cover" onClick={colorPickerClickHandler}/>
+            <div className="cover" onClick={colorPickerClickHandler}></div>
             <ChromePicker disableAlpha={true} color={color} onChange={colorChangeHandler}/>
           </div>
         )}
       </div>
+    </label>
+    <label>
+      <span className="label">Auto open image: </span>
+      <input type="checkbox" checked={autoOpen} onChange={autoOpenChangeHandler} />
+    </label>
+    <label>
+      <span className="label">Checked by default: </span>
+      <input type="checkbox" checked={defaultChecked} onChange={defaultCheckedChangeHandler} />
     </label>
     <div className="buttons">
       <span onClick={removeHandler} className="button">Remove</span>
@@ -52,7 +60,9 @@ export default connect(
       color,
       temporary,
       changed: commonPropsDiffer(category, getCategoryById(state, id), ["selected"]),
-      showColorPicker: colorPicker
+      showColorPicker: colorPicker,
+      autoOpen: category.autoOpen,
+      defaultChecked: category.defaultChecked
     }
   },
 
@@ -66,6 +76,8 @@ export default connect(
       colorPickerClickHandler: () => dispatch(Actions.toggleColorPicker(id)),
       resetHandler: () => dispatch(Actions.resetChanges(id)),
       removeHandler: () => {if(confirm("Are you sure you want to delete this category and all its items?"))dispatch(Actions.removeCategory(id))},
+      autoOpenChangeHandler: (e) => dispatch(Actions.fieldChange(id, 'autoOpen', e.target.checked)),
+      defaultCheckedChangeHandler: (e) => dispatch(Actions.fieldChange(id, 'defaultChecked', e.target.checked))
     }
   }
 )(Category);
