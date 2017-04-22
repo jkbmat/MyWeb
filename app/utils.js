@@ -1,6 +1,8 @@
 /**
  * Created by Jakub Matuška on 27.01.2017.
  */
+import 'core-js/fn/array/find';
+
 
 export const getCategoryById = (store, id) => store.Categories.find((category) => category.id === id);
 

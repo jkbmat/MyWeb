@@ -2,6 +2,7 @@
  * Created by Jakub Matuška on 31.01.2017.
  */
 import fetch from 'isomorphic-fetch';
+import 'core-js/fn/array/find';
 
 import {MESSAGE_ERROR, setMessage} from 'message/actions';
 

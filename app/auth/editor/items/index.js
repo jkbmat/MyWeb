@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
+import 'core-js/fn/array/find';
 
 import EditorItem from './editorItem';
 import * as Actions from './actions';

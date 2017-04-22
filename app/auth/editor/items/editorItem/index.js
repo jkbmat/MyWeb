@@ -4,6 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import ReactMarkdown from 'react-markdown';
+import 'core-js/fn/array/find';
 
 import PictureMover from '../pictureMover';
 import * as Actions from './actions';
@@ -68,7 +69,7 @@ class EditorItem extends React.Component {
 
                 <label>
                   <span>Description:</span>
-                  <textarea value={item.description} onChange={handlers.change.description}/>
+                  <textarea value={item.description} onChange={handlers.change.description}></textarea>
                 </label>
 
                 {item.description && (

@@ -3,6 +3,8 @@
  */
 import {combineReducers} from 'redux';
 import {load} from 'react-cookie';
+import 'core-js/fn/array/find';
+import 'core-js/fn/object/assign';
 
 const defaultState = {
   Categories: [
@@ -119,7 +121,9 @@ const category = (state = defaultState.Categories, action) => {
         id: action.id,
         color: action.color,
         name: action.name,
-        selected: true
+        selected: true,
+        defaultChecked: true,
+        autoOpen: false
       });
 
     case 'REMOVE_CATEGORY':

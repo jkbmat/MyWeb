@@ -3,6 +3,7 @@
  */
 
 import fetch from 'isomorphic-fetch';
+import 'core-js/fn/array/find';
 
 import {setMessage, MESSAGE_ERROR} from 'message/actions';
 import {makeToken} from 'utils';
