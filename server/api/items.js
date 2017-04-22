@@ -4,13 +4,11 @@
 "use strict";
 
 const fs = require('fs');
-
-const uploadPath = '/uploads/';
-
 const path = require('path');
 const multer  = require('multer');
+
 const storage = multer.diskStorage({
-  destination: DIST_DIR + uploadPath,
+  destination: global.uploadPath,
   filename: (req, file, cb) => {
     cb(null, req.params.id + path.extname(file.originalname));
   }
@@ -44,7 +42,7 @@ module.exports = (app, connection, authenticate) => {
   app.post('/api/items/:id/picture', authenticate, uploadFolder.single('picture'), (req, res) => {
     console.log('Uploaded a file to ' + req.file.path);
 
-    res.status(200).send(uploadPath + req.file.filename);
+    res.status(200).send('/uploads/' + req.file.filename);
   });
 
 
@@ -97,7 +95,7 @@ module.exports = (app, connection, authenticate) => {
   }]);
   
   app.delete('/api/items/:id/picture', authenticate, function (req, res) {
-    require('glob').glob(DIST_DIR + uploadPath + req.params.id + '.*', (err, file) => {
+    require('glob').glob(global.uploadPath + req.params.id + '.*', (err, file) => {
       if (err)
         return res.sendStatus(400);
 

@@ -17,13 +17,14 @@ const connection = require('./sql/connectDB');
 const runQuery = require('./sql/runQuery');
 
 global.DIST_DIR = path.resolve(__dirname + '/../dist/');
-
+global.uploadPath = process.env.OPENSHIFT_DATA_DIR || DIST_DIR + '/uploads/';
 
 app.use(function (req, res, next) {
   res.set('X-Clacks-Overhead', 'GNU Terry Pratchet');
   next();
 });
 
+app.use('/uploads', express.static(uploadPath));
 app.use(express.static(DIST_DIR));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -99,7 +100,7 @@ app.get('*', function (req, res) {
 });
 
 
-let server = app.listen(8081, function () {
+let server = app.listen(process.env.OPENSHIFT_NODEJS_PORT || 8081, process.env.OPENSHIFT_NODEJS_IP || "localhost", function () {
   console.log("The server is running!");
 });
 
