@@ -4,12 +4,10 @@ const APP_DIR = path.resolve(__dirname, 'app');
 const BUILD_DIR = path.resolve(__dirname, 'dist');
 
 module.exports = {
-  devServer: { inline: true },
-  devtool: 'source-map',
   entry: ['babel-polyfill', APP_DIR + '/entry.js'],
   output: {
     path: BUILD_DIR,
-    publicPath: 'http://localhost:8080/',
+    publicPath: '/',
     filename: 'app.js'
   },
   module: {
