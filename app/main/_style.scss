@@ -6,6 +6,49 @@
   min-height: 100%;
   display: flex;
 
+  .scroll-to-top {
+    $hiddenBottom: -2em;
+
+    @keyframes slideInBottom {
+      from {
+        bottom: $hiddenBottom;
+        opacity: 0;
+      }
+
+      to {
+        bottom: 0;
+        opacity: 1;
+      }
+    }
+    @keyframes slideOutBottom {
+      from {
+        bottom: 0;
+        opacity: 1;
+      }
+
+      to {
+        bottom: $hiddenBottom;
+        opacity: 0;
+      }
+    }
+
+    position: fixed;
+    right: 0;
+    bottom: $hiddenBottom;
+    z-index: 100;
+    border-radius: $unit $unit 0 0;
+    margin: 0 $unit;
+
+    &.scroll-to-top--visible {
+      animation: slideInBottom $speed;
+      bottom: 0;
+    }
+    &.scroll-to-top--invisible {
+      animation: slideOutBottom $speed;
+      bottom: $hiddenBottom;
+    }
+  }
+
   .photo-container {
     width: 25%;
     max-width: 400px;
@@ -35,14 +78,28 @@
     height: 100%;
 
     .photo {
-      width: 250px;
+      @keyframes slideIn {
+        from {
+          left: -200px;
+          opacity: 0;
+        }
+        to {
+          left: 0px;
+          opacity: 1;
+        }
+      }
+
+      width: 200px;
       height: 100%;
       background: url(~_img/head.png) no-repeat top left;
       background-size: 100%;
       position: fixed;
-      left: -50px;
-      top: 0;
-      //content: "";
+
+      @media (min-width: $screen-normal) {
+        animation: slideIn $speed ease;
+      }
+
+      left: 0px;
 
       @media (max-width: $screen-normal) {
         transform: scaleY(-1);
@@ -85,7 +142,7 @@
     flex-grow: 1;
     //width: 75%;
     padding-bottom: 3em;
-    background: transparentize($color-bg, 0.4);
+    background: transparentize($color-bg, 0.2);
 
     /*flex-basis: 75%;
 

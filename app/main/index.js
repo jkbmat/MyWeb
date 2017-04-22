@@ -3,6 +3,8 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
+import SmoothScroll from 'smoothscroll';
+import ClassNames from 'classnames';
 
 import Message from 'message';
 import Navigation from 'navigation';
@@ -15,11 +17,19 @@ require('./_style.scss');
 const classNames = require('classnames');
 
 class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {scrollToTopVisible: false};
+  }
+
   componentDidMount() {
     this.resizeHandler = this.resizeOverlay.bind(this);
     this.closeHandler = this.closeHandler.bind(this);
+    this.scrollHandler = this.scrollHandler.bind(this);
 
     window.addEventListener("resize", this.resizeHandler);
+    window.addEventListener("resize", this.scrollHandler);
+    window.addEventListener("scroll", this.scrollHandler);
 
     this.resizeHandler();
   }
@@ -30,6 +40,8 @@ class Main extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeHandler);
+    window.removeEventListener("resize", this.scrollHandler);
+    window.removeEventListener("scroll", this.scrollHandler);
   }
 
   resizeOverlay() {
@@ -56,6 +68,19 @@ class Main extends React.Component {
     }
   }
 
+  scrollHandler() {
+    if (window.scrollY > screen.availHeight / 3) {
+      this.setState({scrollToTopVisible: true});
+    }
+    else {
+      this.setState({scrollToTopVisible: false});
+    }
+  }
+
+  scrollTopHandler() {
+    SmoothScroll(0, 400);
+  }
+
   closeHandler() {
     this.overlay.classList.add("removing");
     this.overlay.addEventListener("animationend", this.props.closeOverlay);
@@ -66,11 +91,19 @@ class Main extends React.Component {
 
     return (
       <div className={classNames("page", {loading})}>
+        <div
+          className={ClassNames("scroll-to-top", "button", {
+            "scroll-to-top--visible": this.state.scrollToTopVisible,
+            "scroll-to-top--invisible": !this.state.scrollToTopVisible
+          })}
+          onClick={this.scrollTopHandler}>
+          Back to the top ^
+        </div>
         <Message />
         {isLoggedIn && <LoggedInBar />}
         <Navigation />
         <div className="photo-container">
-          <div className="photo" />
+          <div className="photo"></div>
         </div>
         <div className="main">
           <h1>{title}.</h1>
